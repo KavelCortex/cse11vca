@@ -1,3 +1,4 @@
+
 /**
  * Assignment 01 login: cs11vca
  **/
@@ -48,9 +49,9 @@ public class P1
         + "   -------------------------------------------\n";
 
     char loop = 'n'; // Decision whether to add more books
-    char vendor; // Decision in which vendor do the user choose
+    char vendor = 0; // Decision in which vendor do the user choose
     long isbn = 0; // ISBN Code for the specific book to purchase
-    double price; // The total price for the book
+    double price = 0; // The total price for the book
 
     Scanner scanner = new Scanner(System.in); // Read input from keyboard
     String name = null; // Placeholder for student name
@@ -65,46 +66,73 @@ public class P1
 
     // Collect and check ISBN input from user
     boolean isISBNValid = false;
-    do
+    do // DO loop for ISBN Validation
     {
       System.out.print("Enter ISBN-10 (omit hyphens): ");
       isbn = scanner.nextLong(); // Collect user input as ISBN Code
                                  // (might be invalid)
 
-      // For each FOR loop, isbn divide itself by 10 to drop the last digit,
-      // then compare isbn to the upper bound of ISBN-10. Stop the loop when
-      // isbn is in the boundary.
-      for (; (isbn /= 10) > MAX_ISBN_10;)
-        ;
-
-      // Check if the requested book is available.
-      // Cannot use long var as the parameter of switch,
-      // therefore, parse them into String var.
-      switch ("" + isbn)
+      if (isbn > 0) // ISBN less or equal than 0 is not allowed
       {
-        case "" + BOOK1:
-        case "" + BOOK2:
-        case "" + BOOK3:
-          isISBNValid = true;
-          break;
-        default:
-          isISBNValid = false;
+        // For each FOR loop, isbn divide itself by 10 to drop the last digit,
+        // then compare isbn to the upper bound of ISBN-10. Stop the loop when
+        // isbn is in the boundary.
+        for (; (isbn /= 10) > MAX_ISBN_10;)
+          ;
+
+        // Check if the requested book is available.
+        // Cannot use long var as the parameter of switch,
+        // therefore, parse them into String var.
+        switch ("" + isbn)
+        {
+          case "" + BOOK1:
+          case "" + BOOK2:
+          case "" + BOOK3:
+            isISBNValid = true;
+            break;
+          default:
+            isISBNValid = false;
+        }
+
+        if (isISBNValid)
+          break; // Break the loop if the corresponding book is available
       }
-
-      if (isISBNValid)
-        break; // Break the loop if the corresponding book is available
-
       // else, print an error message and continue the loop
       System.out.println("ERROR: None of these books!\n");
 
     } while (!isISBNValid);
 
-    System.out.print("\nEnter Vendor letter (A-C): ");
-    inputStr = scanner.next(); // Collect user input
+    boolean isVendorValid = false;
+    while (!isVendorValid) // WHILE loop for vendor validation
+    {
+      System.out.print("\nEnter Vendor letter (A-C): ");
+      inputStr = scanner.next(); // Collect user input
+      inputStr = inputStr.toUpperCase(); // Make input case-insensitive
+      vendor = inputStr.charAt(0); // Take the first character as Vendor Code
+      if (vendor >= 'A' && vendor <= 'C') // If the Vendor Code is within range
+        isVendorValid = true; // Set flag by TRUE to exit the loop
+      else
+        System.out.println("ERROR: range(A-C)!"); // continuing the loop
+    }
 
-    inputStr = inputStr.toUpperCase(); // Make input case-insensitive
-
-    vendor = inputStr.charAt(0); // Take the first character as Vendor Code
-
+    if (vendor == 'C') // Dealing C separately, for A and B have mostly the same
+                       // price.
+    {
+      //
+      switch ("" + isbn)
+      {
+        case "" + BOOK1:
+          price += PRICE_1C;
+          break;
+        case "" + BOOK2:
+          price += PRICE_2C;
+          break;
+        case "" + BOOK3:
+          price += PRICE_3C;
+          break;
+        default:
+          System.out.println("odd.");
+      }
+    }
   }
 }
