@@ -1,6 +1,7 @@
 
 /**
- * Assignment 01 login: cs11vca
+ * Assignment 01 
+ * login: cs11vca
  **/
 import java.util.Scanner; // Scanner for input
 
