@@ -116,24 +116,47 @@ public class P1
         System.out.println("ERROR: range(A-C)!"); // continuing the loop
     }
 
-    if (vendor == 'C') // Dealing C separately, for A and B have mostly the same
-                       // price.
+    // Dealing C separately, for A and B have mostly the same price.
+    if (vendor == 'C')
     {
-      //
-      switch ("" + isbn)
+      switch ("" + isbn) // Select the correct price of book based on ISBN Code
       {
         case "" + BOOK1:
           price += PRICE_1C;
+          isVendorValid = true;
           break;
         case "" + BOOK2:
           price += PRICE_2C;
+          isVendorValid = true;
           break;
         case "" + BOOK3:
           price += PRICE_3C;
+          isVendorValid = true;
           break;
         default:
+          isVendorValid = false;
           System.out.println("odd.");
       }
+    } else // for vendor A and B
+    {
+      switch ("" + isbn) // book 1 and 2 has the same price on different vendor
+      {
+        case "" + BOOK1:
+          price += PRICE_1A;
+          isVendorValid = true;
+          break;
+        case "" + BOOK2:
+          price += PRICE_2A;
+          isVendorValid = true;
+          break;
+        default:
+          break;
+      }
+      if(isbn==BOOK3)
+      {
+        
+      }
+
     }
   }
 }

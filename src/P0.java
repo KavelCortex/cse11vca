@@ -14,8 +14,9 @@ public class P0
 {
 
   /**
-   * main() accepts input, which is the feet value to be converted, then convert
-   * feet into inches using factor. Finally, output the converted inches values.
+   * main() accepts input, which is the feet value to be converted, then
+   * convert feet into inches using factor. Finally, output the converted
+   * inches values.
    **/
   public static void main(String[] args)
   {
