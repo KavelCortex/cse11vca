@@ -1,4 +1,3 @@
-
 /**
  * Assignment 00 
  * login: cs11vca 
@@ -8,7 +7,8 @@
 import java.util.Scanner; // Scan input from keyboard
 
 /**
- * class P0 This is the main class to perform the convert operation.
+ * class P0 
+ * This is the main class to perform the convert operation.
  **/
 public class P0
 {

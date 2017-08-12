@@ -1,20 +1,25 @@
-
 /**
  * Assignment 01 
  * login: cs11vca
+ * DUE: Saturday, August 12, 2017 @ 6:00am 
+ * This program calculates an online book order's price for a student. 
  **/
 import java.util.Scanner; // Scanner for input
 
 /**
- * class P1 This program calculates an online book order for a student. The user
- * will be asked to input his or her student name, ISBN Code, vendor choice, and
- * whether he or she wants to add more books.
+ * class P1 
+ * This is the main class for the calculator program.
+ * The user will be asked to input his or her student name, ISBN Code, 
+ * vendor choice, and whether he or she wants to add more books, in order to
+ * calculate the total price of books.
  **/
 public class P1
 {
 
   /**
-   * @param args
+   * main() accept user's name, listing the book available to order and
+   * letting users to place their order using valid ISBN number and vendor
+   * code. When order is done, display the total price of the order.
    **/
   public static void main(String[] args)
   {
@@ -61,102 +66,119 @@ public class P1
     System.out.print("Enter students' name: ");
     name = scanner.next(); // Collect user input as student's name
 
-    // Display the book price menu
-    System.out.printf(BOOK_MENU_STR, PRICE_1A, PRICE_1B, PRICE_1C, PRICE_2A,
-        PRICE_2B, PRICE_2C, PRICE_3A, PRICE_3B, PRICE_3C);
-
-    // Collect and check ISBN input from user
-    boolean isISBNValid = false;
-    do // DO loop for ISBN Validation
+    
+    // WHILE Loop for continuing placing order
+    boolean wantsMore = true;
+    while (wantsMore)
     {
-      System.out.print("Enter ISBN-10 (omit hyphens): ");
-      isbn = scanner.nextLong(); // Collect user input as ISBN Code
-                                 // (might be invalid)
 
-      if (isbn > 0) // ISBN less or equal than 0 is not allowed
+      // Display the book price menu
+      System.out.printf(BOOK_MENU_STR, PRICE_1A, PRICE_1B, PRICE_1C, PRICE_2A,
+          PRICE_2B, PRICE_2C, PRICE_3A, PRICE_3B, PRICE_3C);
+
+      /*----ISBN Validation----*/
+      boolean isISBNValid = false;
+      do // DO loop for ISBN Validation
       {
-        // For each FOR loop, isbn divide itself by 10 to drop the last digit,
-        // then compare isbn to the upper bound of ISBN-10. Stop the loop when
-        // isbn is in the boundary.
-        for (; (isbn /= 10) > MAX_ISBN_10;)
-          ;
+        System.out.print("Enter ISBN-10 (omit hyphens): ");
+        isbn = scanner.nextLong(); // Collect user input as ISBN Code
 
-        // Check if the requested book is available.
-        // Cannot use long var as the parameter of switch,
-        // therefore, parse them into String var.
+        if (isbn > 0) // ISBN less than or equal to 0 is not allowed
+        {
+          // For each FOR loop, isbn compare isbn to the upper bound of
+          // ISBN-10. if is out of bound, divide itself by 10 to drop the
+          // last digit, and continue comparing. Stop the loop when
+          // isbn is in the boundary.
+          for (; isbn > MAX_ISBN_10; isbn /= 10)
+            ;
+
+          // Check if the requested book is available.
+          // Cannot use long var as the parameter of switch,
+          // thus, parse them into String var.
+          switch ("" + isbn)
+          {
+            case "" + BOOK1:
+            case "" + BOOK2:
+            case "" + BOOK3:
+              isISBNValid = true;
+              break;
+            default:
+              isISBNValid = false;
+          }
+
+          if (isISBNValid)
+            break; // Break the loop if the corresponding book is available
+        }
+        // else, print an error message and continue the loop
+        System.out.println("ERROR: None of these books!\n");
+      } while (!isISBNValid);
+
+      /*----Vendor Validation----*/
+      boolean isVendorValid = false;
+      while (!isVendorValid) // WHILE loop for vendor validation
+      {
+        System.out.print("\nEnter Vendor letter (A-C): ");
+        inputStr = scanner.next(); // Collect user input
+        inputStr = inputStr.toUpperCase(); // Make input case-insensitive
+        vendor = inputStr.charAt(0); //Take the first character as Vendor Code
+
+        if (vendor >= 'A' && vendor <= 'C') // If Vendor Code is within range
+          isVendorValid = true; // Set flag by TRUE to exit the loop
+        else
+          System.out.println("ERROR: range(A-C)!"); // continuing the loop
+      }
+
+      /*----Assembling Price----*/
+      // Dealing C separately, for A and B have mostly the same price.
+      if (vendor == 'C')
+      {
         switch ("" + isbn)
+        // Select the correct price of book based on ISBN Code
         {
           case "" + BOOK1:
+            price += PRICE_1C;
+            break;
           case "" + BOOK2:
+            price += PRICE_2C;
+            break;
           case "" + BOOK3:
-            isISBNValid = true;
+            price += PRICE_3C;
             break;
           default:
-            isISBNValid = false;
+            System.out.println("odd."); // Odd.
         }
-
-        if (isISBNValid)
-          break; // Break the loop if the corresponding book is available
       }
-      // else, print an error message and continue the loop
-      System.out.println("ERROR: None of these books!\n");
-
-    } while (!isISBNValid);
-
-    boolean isVendorValid = false;
-    while (!isVendorValid) // WHILE loop for vendor validation
-    {
-      System.out.print("\nEnter Vendor letter (A-C): ");
-      inputStr = scanner.next(); // Collect user input
-      inputStr = inputStr.toUpperCase(); // Make input case-insensitive
-      vendor = inputStr.charAt(0); // Take the first character as Vendor Code
-      if (vendor >= 'A' && vendor <= 'C') // If the Vendor Code is within range
-        isVendorValid = true; // Set flag by TRUE to exit the loop
+      
+      // for vendor A and B
       else
-        System.out.println("ERROR: range(A-C)!"); // continuing the loop
-    }
+      {
+        switch ("" + isbn)
+        {
+          case "" + BOOK1: // Book 1&2 has the same price at different vendor.
+            price += PRICE_1A;
+            break;
+          case "" + BOOK2: // Book 2
+            price += PRICE_2A;
+            break;
+          case "" + BOOK3: // Book 3 is different. handle it.
+            price += (vendor == 'A' ? PRICE_3A : PRICE_3B);
+            break;
+          default:
+            System.out.println("Oddly odd."); // Oddly odd.
+        } // end of switch ("" + isbn)
+      } // end of else
 
-    // Dealing C separately, for A and B have mostly the same price.
-    if (vendor == 'C')
-    {
-      switch ("" + isbn) // Select the correct price of book based on ISBN Code
-      {
-        case "" + BOOK1:
-          price += PRICE_1C;
-          isVendorValid = true;
-          break;
-        case "" + BOOK2:
-          price += PRICE_2C;
-          isVendorValid = true;
-          break;
-        case "" + BOOK3:
-          price += PRICE_3C;
-          isVendorValid = true;
-          break;
-        default:
-          isVendorValid = false;
-          System.out.println("odd.");
-      }
-    } else // for vendor A and B
-    {
-      switch ("" + isbn) // book 1 and 2 has the same price on different vendor
-      {
-        case "" + BOOK1:
-          price += PRICE_1A;
-          isVendorValid = true;
-          break;
-        case "" + BOOK2:
-          price += PRICE_2A;
-          isVendorValid = true;
-          break;
-        default:
-          break;
-      }
-      if(isbn==BOOK3)
-      {
-        
-      }
+      System.out.printf("%s, your total price for ISBN#:%d is %.2f\n", name,
+          isbn, price); // Print totals
 
-    }
-  }
+      // Ask user whether to continue the loop
+      System.out.print("Want to order more books (y/n)? ");
+      inputStr = scanner.next();
+      inputStr = inputStr.toUpperCase();
+      if (inputStr.charAt(0) == 'N')
+        wantsMore = false; // Set flag to false to jump out of the WHILE loop.
+
+    } // end of wantsMore
+
+  } // end of main()
 }
