@@ -1,12 +1,13 @@
-import java.util.Scanner;
-
 /**
- * Assignment 02 login: cs11vca DUE: Wednesday, August 16, 2017 @ 6:00am This
- * program is to help calculate the price of coffee orders.
+ * Assignment 02 
+ * login: cs11vca 
+ * DUE: Wednesday, August 16, 2017 @ 6:00am 
+ * This program is to help calculate the price of coffee orders.
  **/
-
+import java.util.Scanner;
 /**
- * class P2 This is the main class of the program, which contains method to
+ * class P2 
+ * This is the main class of the program, which contains method to
  * display menu, take orders, calculate price and handle free coffees.
  **/
 public class P2
