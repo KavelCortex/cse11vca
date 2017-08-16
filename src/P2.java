@@ -4,7 +4,7 @@
  * DUE: Wednesday, August 16, 2017 @ 6:00am 
  * This program is to help calculate the price of coffee orders.
  **/
-import java.util.Scanner;
+import java.util.Scanner; // Scan input from keyboard
 /**
  * class P2 
  * This is the main class of the program, which contains method to
@@ -21,14 +21,15 @@ public class P2
   private static final double $XSHOT    = 0.80;
 
   // Menu String to display
-  private static final String MENU_STR  = "************  JAVA JOY  ************"
-      + "\n    SIZE                   PRICE\n"
-      + "    =================      =====\n"
-      + "    A)  Tall   (12 oz)     $.2f\n"
-      + "    B)  Grande (16 oz)     $.2f\n"
-      + "    C)  Venti  (20 oz)     $.2f\n"
-      + "    D)  Trenta (31 oz)     $.2f\n"
-      + "************************************\n";
+  private static final String MENU_STR  = 
+        "         ************  JAVA JOY  ************\n"
+      + "             SIZE                   PRICE\n"
+      + "             =================      =====\n"
+      + "             A)  Tall   (12 oz)     $%.2f\n"
+      + "             B)  Grande (16 oz)     $%.2f\n"
+      + "             C)  Venti  (20 oz)     $%.2f\n"
+      + "             D)  Trenta (31 oz)     $%.2f\n"
+      + "         ************************************\n";
 
   // Accumulator for total price of coffee
   private static int          totalJava = 0;
@@ -83,14 +84,14 @@ public class P2
           break; // If qualified, break the loop
 
         // else means invalid, continue to next loop
-        System.out.println("ERROR! Quantity Only: (1-11)!");
+        System.out.println("\nERROR! Quantity Only: (1-11)!");
       }
 
       // calculate the price and add to accumulator
       if (quantity == 1)
         totalPrice += calcPrice(type); // use this method for 1 coffee
       else
-        totalPrice += calcPrice(type, quantity); // use this for multiple coffee
+        totalPrice += calcPrice(type, quantity); //use this for multiple coffee
 
       // ask user for ordering more coffee
       System.out.print("Want more Java (y/n)?: ");
@@ -233,4 +234,4 @@ public class P2
     System.out.printf("\nTotal (tax included): $%.2f\n", money);
   }
 
-}
+} //end of class
